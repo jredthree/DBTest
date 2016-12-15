@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.util.Log;
 
 import com.jredthree.dbtest.db.DBHelp;
 import com.jredthree.dbtest.db.utils.DBUtils;
@@ -55,8 +54,10 @@ public class DBActionImpl implements DBAction {
     @Override
     public long delete(String tableName, String[] whereClause, String[] whereArgs) {
         StringBuffer sb = new StringBuffer();
-        for(String s : whereClause){
-            sb = sb.append(s);
+        if(null != whereClause) {
+            for (String s : whereClause) {
+                sb = sb.append(s);
+            }
         }
         return db.delete(tableName,sb.toString(),whereArgs);
     }
@@ -66,8 +67,10 @@ public class DBActionImpl implements DBAction {
         ContentValues cv = new ContentValues();
         cv = dbUtils.getContentValues(t);
         StringBuffer sb = new StringBuffer();
-        for(String s : whereClause){
-            sb = sb.append(s);
+        if(null != whereClause) {
+            for (String s : whereClause) {
+                sb = sb.append(s);
+            }
         }
         return db.update(tableNamele,cv,sb.toString(),whereArgs);
     }
@@ -81,9 +84,7 @@ public class DBActionImpl implements DBAction {
                 sb = sb.append(s);
             }
         }
-        Log.i("db",sb.toString());
         Cursor cursor = db.query(tableNamele,columns,sb.toString(),selectionArgs,"","",orderBy);
-
         List<T> list = dbUtils.<T>getModel(cursor,classZ);
 
         return list;

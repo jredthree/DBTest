@@ -16,7 +16,11 @@ import java.util.List;
 
 public class DBUtils {
 
-
+    /**
+     * 解析数据得到ContentValues
+     * @param object
+     * @return
+     */
     public  ContentValues getContentValues(Object object){
         final ContentValues cv = new ContentValues();
         Class c = object.getClass();
@@ -87,7 +91,13 @@ public class DBUtils {
         return cv;
     }
 
-    private  Method getMethod(String methodName,Method[] methods){
+    /**
+     * 从方法数组中查询得到方法
+     * @param methodName
+     * @param methods
+     * @return
+     */
+    private Method getMethod(String methodName,Method[] methods){
         Method method = null;
         for(Method m : methods){
             if(methodName.equalsIgnoreCase(m.getName())){
@@ -102,34 +112,13 @@ public class DBUtils {
         return (T) object;
     }
 
-    private  void getResult(String type,Object object,ValueTypeInterface vti){
-        if(type.equalsIgnoreCase("int") || type.equalsIgnoreCase("Integer")){
-            vti.getValue((Integer) getValue(object));
-        }else if(type.equalsIgnoreCase("String")){
-            vti.getValue((String) getValue(object));
-        }else if(type.equalsIgnoreCase("Boolean")){
-            vti.getValue((Boolean) getValue(object));
-        }else if(type.equalsIgnoreCase("Float")){
-            vti.getValue((Float) getValue(object));
-        }else if(type.equalsIgnoreCase("Double")){
-            vti.getValue((Double) getValue(object));
-        }else if(type.equalsIgnoreCase("Long")){
-            vti.getValue((Long) getValue(object));
-        }else{
-            vti.getValue((Byte) getValue(object));
-        }
-    }
-
-    private interface ValueTypeInterface{
-        void getValue(Integer result);
-        void getValue(Boolean result);
-        void getValue(Float result);
-        void getValue(Double result);
-        void getValue(Long result);
-        void getValue(String result);
-        void getValue(Byte result);
-    }
-
+    /**
+     * 获取模型
+     * @param cursor
+     * @param classZ
+     * @param <T>
+     * @return
+     */
     public  <T> List<T> getModel(final Cursor cursor,Class<T> classZ){
 
         int resultCounts = cursor.getCount();
@@ -241,5 +230,36 @@ public class DBUtils {
             keys[i] = fields[i].getName();
         }
         return keys;
+    }
+
+    private  void getResult(String type,Object object,ValueTypeInterface vti){
+        if(type.equalsIgnoreCase("int") || type.equalsIgnoreCase("Integer")){
+            vti.getValue((Integer) getValue(object));
+        }else if(type.equalsIgnoreCase("String")){
+            vti.getValue((String) getValue(object));
+        }else if(type.equalsIgnoreCase("Boolean")){
+            vti.getValue((Boolean) getValue(object));
+        }else if(type.equalsIgnoreCase("Float")){
+            vti.getValue((Float) getValue(object));
+        }else if(type.equalsIgnoreCase("Double")){
+            vti.getValue((Double) getValue(object));
+        }else if(type.equalsIgnoreCase("Long")){
+            vti.getValue((Long) getValue(object));
+        }else{
+            vti.getValue((Byte) getValue(object));
+        }
+    }
+
+    /**
+     * 结果类型接口
+     */
+    private interface ValueTypeInterface{
+        void getValue(Integer result);
+        void getValue(Boolean result);
+        void getValue(Float result);
+        void getValue(Double result);
+        void getValue(Long result);
+        void getValue(String result);
+        void getValue(Byte result);
     }
 }
