@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String USERTABLE = "users_table";
+   /* public static final String USERTABLE = "users_table";
 
     public static final String USERDBSQL = "create table if not exists "
             + USERTABLE
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             + " sex boolean,"
             + " number varchar(100),"
             + " price varchar(100),"
-            + " count varchar(100))";
+            + " count varchar(100))";*/
 
     UserDao dao= new UserDaoImpl();
 
@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         * 先初始化model
+         */
         List<Class<?>> classes = new ArrayList<>();
         classes.add(User.class);
         DaoHelp.getInstance().initDaoHelp(this,"user",classes,new String[]{},1);
