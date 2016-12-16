@@ -14,7 +14,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     private DaoHelp daoHelp = DaoHelp.getInstance();
-    private  String USERTABLE = "users_table";
+    private  String USERTABLE = "user_table";
     @Override
     public User get(String id) {
         daoHelp.open();

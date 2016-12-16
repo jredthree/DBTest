@@ -9,6 +9,9 @@ import com.jredthree.dbtest.db.DaoHelp;
 import com.jredthree.dbtest.db.dao.UserDao;
 import com.jredthree.dbtest.db.dao.UserDaoImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String USERTABLE = "users_table";
@@ -31,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DaoHelp.getInstance().initDaoHelp(this,"user",new String[]{USERDBSQL},new String[]{"user_table"},2);
+        List<Class<?>> classes = new ArrayList<>();
+        classes.add(User.class);
+        DaoHelp.getInstance().initDaoHelp(this,"user",classes,new String[]{},1);
+      /*  AnnotationUtils.parserAnnotationDb(User.class);*/
 
         findViewById(R.id.btnInsert).setOnClickListener(
                 new View.OnClickListener() {

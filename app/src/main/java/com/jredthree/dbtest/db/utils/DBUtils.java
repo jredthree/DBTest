@@ -27,65 +27,67 @@ public class DBUtils {
         Field[] fields = c.getDeclaredFields();
         Method[] methods = c.getDeclaredMethods();
 
-        for(Field field : fields){
+        for(Field field : fields) {
             final String fieldName = field.getName();
             String typeName = field.getType().getSimpleName();
             String getMethodName;
-            if(typeName.equalsIgnoreCase("boolean")){
+            if (typeName.equalsIgnoreCase("boolean")) {
                 getMethodName = "is" + fieldName;
-            }else{
-                getMethodName = "get"+fieldName;
+            } else {
+                getMethodName = "get" + fieldName;
             }
 
             //找到对应的get方法
-            Method method = getMethod(getMethodName,methods);
+            Method method = getMethod(getMethodName, methods);
             //获取方法返回值得类型
-            String className = method.getReturnType().getSimpleName();
+            if (null != method) {
+                String className = method.getReturnType().getSimpleName();
 
-            try {
-                Object o = method.invoke(object);
-                getResult(className, o, new ValueTypeInterface() {
-                    @Override
-                    public void getValue(Integer result) {
-                        cv.put(fieldName,result);
-                    }
+                try {
+                    Object o = method.invoke(object);
+                    getResult(className, o, new ValueTypeInterface() {
+                        @Override
+                        public void getValue(Integer result) {
+                            cv.put(fieldName, result);
+                        }
 
-                    @Override
-                    public void getValue(Boolean result) {
-                        cv.put(fieldName,result);
-                    }
+                        @Override
+                        public void getValue(Boolean result) {
+                            cv.put(fieldName, result);
+                        }
 
-                    @Override
-                    public void getValue(Float result) {
-                        cv.put(fieldName,result);
-                    }
+                        @Override
+                        public void getValue(Float result) {
+                            cv.put(fieldName, result);
+                        }
 
-                    @Override
-                    public void getValue(Double result) {
-                        cv.put(fieldName,result);
-                    }
+                        @Override
+                        public void getValue(Double result) {
+                            cv.put(fieldName, result);
+                        }
 
-                    @Override
-                    public void getValue(Long result) {
-                        cv.put(fieldName,result);
-                    }
+                        @Override
+                        public void getValue(Long result) {
+                            cv.put(fieldName, result);
+                        }
 
-                    @Override
-                    public void getValue(String result) {
-                        cv.put(fieldName,result);
-                    }
+                        @Override
+                        public void getValue(String result) {
+                            cv.put(fieldName, result);
+                        }
 
-                    @Override
-                    public void getValue(Byte result) {
-                        cv.put(fieldName,result);
-                    }
-                });
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch ( InvocationTargetException e){
-                e.printStackTrace();
+                        @Override
+                        public void getValue(Byte result) {
+                            cv.put(fieldName, result);
+                        }
+                    });
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
             }
-
         }
 
         return cv;
@@ -232,7 +234,7 @@ public class DBUtils {
         return keys;
     }
 
-    private  void getResult(String type,Object object,ValueTypeInterface vti){
+    private void getResult(String type,Object object,ValueTypeInterface vti){
         if(type.equalsIgnoreCase("int") || type.equalsIgnoreCase("Integer")){
             vti.getValue((Integer) getValue(object));
         }else if(type.equalsIgnoreCase("String")){

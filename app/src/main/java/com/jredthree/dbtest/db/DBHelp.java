@@ -42,6 +42,7 @@ public class DBHelp extends SQLiteOpenHelper{
         for(String s : updateTableName) {
             db.execSQL("DROP TABLE IF EXISTS " + s);
         }
+
         onCreate(db);
     }
 

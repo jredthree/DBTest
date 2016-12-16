@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.jredthree.dbtest.db.action.DBAction;
 import com.jredthree.dbtest.db.action.DBActionImpl;
+import com.jredthree.dbtest.db.utils.AnnotationUtils;
+
+import java.util.List;
 
 /**
  * author: smart
@@ -30,21 +33,35 @@ public class DaoHelp {
         return daoHelp ;
     }
 
-    /**
-     * 初始化数据操作
-     * @param context 环境
-     * @param dbName 数据库名字
-     * @param createSql 初始化建表语句
-     * @param updateTableName 更新表结构语句
-     * @param version 数据库版本
-     */
+    /*
     public void initDaoHelp(Context context,String dbName,String[] createSql,String[] updateTableName,int version){
         dbAction = new DBActionImpl(context);
         this.dbName = dbName;
         this.createSql = createSql;
         this.updateTableName = updateTableName;
         this.version = version;
+    }*/
+
+    /**
+     * 初始化数据操作
+     * @param context 环境
+     * @param dbName 数据库名字
+     * @param classes 初始化表
+     * @param updateTableName 更新表的名字
+     * @param version 数据库版本
+     */
+    public void initDaoHelp(Context context, String dbName, List<Class<?>> classes,String[] updateTableName ,int version){
+        dbAction = new DBActionImpl(context);
+        this.dbName = dbName;
+        this.version = version;
+        this.updateTableName = updateTableName;
+        createSql = new String[classes.size()];
+        for(int i = 0;i<classes.size();i++){
+            createSql[i] = AnnotationUtils.parserAnnotationDb(classes.get(i));
+        }
     }
+
+
 
     public void open(){
         dbAction.open(dbName, createSql ,updateTableName,version);
